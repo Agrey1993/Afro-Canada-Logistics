@@ -1,6 +1,7 @@
 import "./globals.css";
 import "./professional.css";
 import "./service-images.css";
+import "./logo-restore.css";
 
 export const metadata = {
   metadataBase: new URL("https://afrocanadalogistics.ca"),
