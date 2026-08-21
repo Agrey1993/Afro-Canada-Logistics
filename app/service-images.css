@@ -39,6 +39,7 @@
   background-position: center 42%;
 }
 
+/* Production deploy marker: Git integration verified 2026-08-21 */
 @media (max-width: 760px) {
   .service-art {
     height: 210px;
