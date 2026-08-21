@@ -209,9 +209,45 @@ export default function Home() {
           <h2>Tell us what<br />you’re moving.</h2>
           <p>Complete the essentials and get an immediate planning range. We’ll follow up with a verified quote.</p>
           <div className="contact-note" id="contact">
-            <span>VISIT OR WRITE TO US</span>
-            <strong>601 Dundas Street East<br />Whitby, Ontario, Canada</strong>
-            <small>The quote form is our current contact channel.</small>
+            <span className="contact-kicker">CONTACT AFRO-CANADA</span>
+            <div className="contact-directory">
+              <article className="contact-person">
+                <div>
+                  <strong>Agrey Chenga</strong>
+                  <small>Chief Executive Officer</small>
+                </div>
+                <a
+                  className="contact-link whatsapp-link"
+                  href="https://wa.me/14372601378"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Message Agrey Chenga on WhatsApp"
+                >
+                  <span className="whatsapp-mark" aria-hidden="true">W</span>
+                  +1 437 260 1378
+                </a>
+              </article>
+              <article className="contact-person">
+                <div>
+                  <strong>Hazel Ally</strong>
+                  <small>Director of Marketing</small>
+                </div>
+                <a
+                  className="contact-link whatsapp-link"
+                  href="https://wa.me/14378703561"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Message Hazel Ally on WhatsApp"
+                >
+                  <span className="whatsapp-mark" aria-hidden="true">W</span>
+                  +1 437 870 3561
+                </a>
+              </article>
+            </div>
+            <a className="contact-link email-link" href="mailto:Afrocanadalogistics@gmail.com">
+              Afrocanadalogistics@gmail.com
+            </a>
+            <address>601 Dundas Street East<br />Whitby, Ontario, Canada</address>
           </div>
         </div>
 
