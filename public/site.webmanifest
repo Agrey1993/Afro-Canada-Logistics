@@ -1,0 +1,8 @@
+{
+  "name": "Afro-Canada Logistics",
+  "short_name": "Afro-Canada",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffdf8",
+  "theme_color": "#0d6b4e"
+}
