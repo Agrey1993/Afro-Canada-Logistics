@@ -1,0 +1,4 @@
+Build: Vercel Next.js
+Domain: afrocanadalogistics.ca
+Contact actions: WhatsApp and email enabled
+Responsive breakpoints: desktop, tablet, mobile
