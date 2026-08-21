@@ -16,6 +16,10 @@ type Quote = {
   notes: string;
 };
 
+const COMPANY_EMAIL = "Afrocanadalogistics@gmail.com";
+const CEO_WHATSAPP = "14372601378";
+const MARKETING_WHATSAPP = "14378703561";
+
 const emptyQuote: Quote = {
   route: "Canada to Tanzania",
   service: "Air freight",
@@ -34,42 +38,43 @@ const services = [
   {
     number: "01",
     title: "Air freight",
-    copy: "Fast, coordinated movement for boxes, documents and time-sensitive cargo.",
+    copy: "Fast coordination for boxes, documents and time-sensitive cargo between Canada and Tanzania.",
     price: "From CA$9.50/kg*",
     timeline: "Indicative: 5–10 business days",
+    className: "air",
   },
   {
     number: "02",
     title: "Ocean cargo",
-    copy: "A practical option for larger personal effects, household items and commercial loads.",
+    copy: "A practical choice for household goods, larger personal effects and commercial loads.",
     price: "From CA$4.25/kg*",
     timeline: "Indicative: 6–10 weeks",
+    className: "ocean",
   },
   {
     number: "03",
     title: "Door coordination",
-    copy: "Pickup and delivery planning with one point of contact across both countries.",
+    copy: "Pickup and delivery planning with one clear point of contact across both countries.",
     price: "Custom quote",
     timeline: "Based on pickup and destination",
+    className: "door",
   },
 ];
 
 function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 20 20" aria-hidden="true">
-      <path d="M4 10h11M11 5l5 5-5 5" />
-    </svg>
-  );
+  return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" /></svg>;
 }
 
-function RouteMark() {
-  return (
-    <svg viewBox="0 0 88 42" aria-hidden="true">
-      <path d="M7 28C27 8 49 10 77 21" />
-      <circle cx="8" cy="28" r="4" />
-      <circle cx="77" cy="21" r="4" />
-    </svg>
-  );
+function PlaneIcon() {
+  return <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 35l22-5 13-20 6 2-7 20 15 7-2 5-17-3-8 14-5-2 4-14-15 3z" /></svg>;
+}
+
+function ShipIcon() {
+  return <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 30h38l-5 15c-4 5-9 8-15 8s-12-3-16-8zM23 30V14h18v16M16 46c5 4 10 5 15 5s11-2 16-6M19 20h26" /></svg>;
+}
+
+function DoorIcon() {
+  return <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M11 42h16l5 10h20M9 42l7-18h24l6 18M23 24V13h19v11M19 46h2M43 46h2" /><circle cx="20" cy="49" r="5" /><circle cx="45" cy="49" r="5" /></svg>;
 }
 
 export default function Home() {
@@ -91,9 +96,7 @@ export default function Home() {
     return `${Math.round(low).toLocaleString("en-CA")}–${Math.round(high).toLocaleString("en-CA")}`;
   }, [quote.route, quote.service, quote.weight]);
 
-  const update = (field: keyof Quote, value: string) => {
-    setQuote((current) => ({ ...current, [field]: value }));
-  };
+  const update = (field: keyof Quote, value: string) => setQuote((current) => ({ ...current, [field]: value }));
 
   const scrollToQuote = () => {
     document.getElementById("quote")?.scrollIntoView({ behavior: "smooth" });
@@ -103,27 +106,38 @@ export default function Home() {
   const submitQuote = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const reference = `ACL-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
-    const request = { ...quote, estimate, reference, createdAt: new Date().toISOString() };
-    window.localStorage.setItem("afro-canada-latest-quote", JSON.stringify(request));
+    const message = [
+      "Hello Afro-Canada Logistics, I would like a shipping quote.",
+      "",
+      `Reference: ${reference}`,
+      `Name: ${quote.name}`,
+      `Phone: ${quote.phone}`,
+      `Email: ${quote.email}`,
+      `Route: ${quote.route}`,
+      `Service: ${quote.service}`,
+      `Shipment: ${quote.shipment}`,
+      `Weight: ${quote.weight} kg`,
+      `Origin: ${quote.originCity}`,
+      `Destination: ${quote.destinationCity}`,
+      `Ready date: ${quote.readyDate}`,
+      `Planning range: CA$${estimate}`,
+      quote.notes ? `Notes: ${quote.notes}` : "",
+    ].filter(Boolean).join("\n");
+
+    window.localStorage.setItem("afro-canada-latest-quote", JSON.stringify({ ...quote, estimate, reference }));
     setSubmittedRef(reference);
+    window.open(`https://wa.me/${CEO_WHATSAPP}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   };
 
   return (
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Afro-Canada Logistics home">
-          <span className="brand-mark">AC</span>
+          <span className="brand-mark"><b>AC</b><i /></span>
           <span className="brand-copy"><strong>Afro-Canada</strong><small>LOGISTICS</small></span>
         </a>
-        <button
-          className="menu-button"
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="main-navigation"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <span /><span />
-          <span className="sr-only">Toggle navigation</span>
+        <button className="menu-button" type="button" aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen((open) => !open)}>
+          <span /><span /><span className="sr-only">Toggle navigation</span>
         </button>
         <nav id="main-navigation" className={menuOpen ? "nav-open" : ""} aria-label="Main navigation">
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
@@ -134,162 +148,100 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
+        <div className="hero-glow hero-glow-one" /><div className="hero-glow hero-glow-two" />
         <div className="hero-copy">
-          <div className="eyebrow"><span /> CANADA <RouteMark /> TANZANIA</div>
-          <h1>Your cargo.<br /><em>One clear route.</em></h1>
-          <p className="hero-lede">Afro-Canada Logistics helps individuals, families and growing businesses plan shipments between Canada and Tanzania—with clear options, careful coordination and useful updates.</p>
+          <div className="eyebrow"><span /> CANADA <b>↔</b> TANZANIA</div>
+          <h1>Moving cargo.<br /><em>Connecting homes.</em></h1>
+          <p className="hero-lede">Reliable Canada–Tanzania shipping coordination for families, individuals and growing businesses—with clear options, responsive support and a human touch.</p>
           <div className="hero-actions">
             <button className="primary-button" type="button" onClick={scrollToQuote}>Start a shipment <ArrowIcon /></button>
-            <a href="#services" className="text-link">Explore services <span>↓</span></a>
+            <a href={`https://wa.me/${CEO_WHATSAPP}`} target="_blank" rel="noreferrer" className="whatsapp-link">WhatsApp us</a>
           </div>
-          <div className="trust-row" aria-label="Service highlights">
-            <span><b>01</b> Clear quotes</span>
-            <span><b>02</b> Human support</span>
-            <span><b>03</b> Route updates</span>
-          </div>
+          <div className="trust-row"><span><b>01</b> Clear quotes</span><span><b>02</b> Canada ↔ Tanzania</span><span><b>03</b> Direct support</span></div>
         </div>
 
-        <aside className="route-card" aria-label="Featured logistics route">
-          <div className="route-card-top">
-            <span className="live-dot">ROUTE OPEN</span>
-            <span>YYZ → DAR</span>
+        <aside className="route-card" aria-label="Featured Canada to Tanzania route">
+          <div className="route-card-top"><span className="live-dot">ROUTE OPEN</span><span>YYZ → DAR</span></div>
+          <div className="route-visual">
+            <div className="country country-canada"><span>🇨🇦</span><strong>Canada</strong><small>Toronto • GTA</small></div>
+            <div className="flight-path"><i /><b>✈</b><i /></div>
+            <div className="country country-tanzania"><span>🇹🇿</span><strong>Tanzania</strong><small>Dar es Salaam • Nationwide</small></div>
           </div>
-          <div className="map-field">
-            <span className="map-label canada-label">CANADA</span>
-            <span className="map-label tanzania-label">TANZANIA</span>
-            <svg className="route-line" viewBox="0 0 440 230" aria-hidden="true">
-              <path d="M72 70C151 32 244 209 370 151" />
-              <circle cx="72" cy="70" r="9" />
-              <circle cx="370" cy="151" r="9" />
-            </svg>
-            <div className="plane">✦</div>
-          </div>
-          <div className="route-stats">
-            <div><small>POPULAR SERVICE</small><strong>Air freight</strong></div>
-            <div><small>QUOTE RESPONSE</small><strong>Within 1 day*</strong></div>
-          </div>
+          <div className="route-stats"><div><small>POPULAR</small><strong>Air freight</strong></div><div><small>SUPPORT</small><strong>WhatsApp direct</strong></div></div>
         </aside>
       </section>
 
-      <section className="services-section" id="about">
-        <div className="about-story">
-          <div>
-            <span className="kicker">ABOUT AFRO-CANADA</span>
-            <h2>Logistics between<br />two homes.</h2>
-          </div>
+      <section className="about-section" id="about">
+        <div className="about-panel">
+          <div><span className="kicker">ABOUT AFRO-CANADA</span><h2>One corridor.<br />Two countries.<br /><em>One trusted team.</em></h2></div>
           <div className="about-copy">
-            <p>Afro-Canada Logistics is a Canada-based shipment coordination company focused on the Canada–Tanzania corridor. Our goal is to make cross-border shipping easier to understand—from choosing a service and planning pickup to preparing shipment details and following the route.</p>
-            <p>We support personal effects, documents, household goods and commercial cargo through trusted carrier coordination. Every shipment begins with a clear review so the customer understands the expected price, timing and next steps before cargo moves.</p>
-            <div className="audience-row" aria-label="Customers we serve"><span>Individuals</span><span>Families</span><span>Small businesses</span></div>
+            <p>Afro-Canada Logistics is a Canada-based shipment coordination company focused on the Canada–Tanzania corridor. We help customers understand their shipping options, organize pickup and delivery, and prepare the information needed for a smoother shipment.</p>
+            <p>We support personal effects, documents, household goods and commercial cargo through coordinated carrier services. Final pricing and timelines are confirmed before cargo moves.</p>
+            <div className="audience-row"><span>Individuals</span><span>Families</span><span>Small businesses</span><span>Commercial cargo</span></div>
           </div>
         </div>
+      </section>
 
-        <div className="section-intro" id="services">
-          <div><span className="kicker">WHAT WE MOVE</span><h2>Simple options.<br />Serious care.</h2></div>
-          <p>Choose the route that fits your shipment. We’ll confirm the final price, timing and requirements before anything moves.</p>
-        </div>
-        <div className="services-grid" id="pricing">
+      <section className="services-section" id="services">
+        <div className="section-intro"><div><span className="kicker">OUR SERVICES</span><h2>Choose the route<br />that fits your cargo.</h2></div><p>Flexible options for different shipment sizes, budgets and timelines. We confirm the final requirements before anything moves.</p></div>
+        <div className="services-grid">
           {services.map((service) => (
-            <article className="service-card" key={service.title}>
-              <span className="service-number">{service.number}</span>
-              <div className="service-icon" aria-hidden="true">{service.number === "01" ? "↗" : service.number === "02" ? "≈" : "⌖"}</div>
-              <h3>{service.title}</h3>
-              <p>{service.copy}</p>
+            <article className={`service-card ${service.className}`} key={service.title}>
+              <div className="service-top"><span className="service-number">{service.number}</span><span className="service-badge">CAN ↔ TZ</span></div>
+              <div className="service-art">{service.number === "01" ? <PlaneIcon /> : service.number === "02" ? <ShipIcon /> : <DoorIcon />}</div>
+              <h3>{service.title}</h3><p>{service.copy}</p>
               <div className="price-row"><strong>{service.price}</strong><span>{service.timeline}</span></div>
               <button type="button" onClick={() => { update("service", service.title); scrollToQuote(); }}>Choose this service <ArrowIcon /></button>
             </article>
           ))}
         </div>
-        <p className="pricing-note">*Illustrative pricing only. Final rates depend on dimensions, exact locations, duties, insurance and carrier availability.</p>
+        <p className="pricing-note">*Planning rates are illustrative only. Final rates depend on dimensions, exact locations, duties/taxes, insurance, cargo type and carrier availability.</p>
+      </section>
+
+      <section className="contact-section" id="contact">
+        <div className="contact-heading"><span className="kicker light">CONTACT OUR TEAM</span><h2>Talk to a real person.</h2><p>Tap a number to open WhatsApp, or tap the email address to start an email.</p></div>
+        <div className="contact-grid">
+          <a className="contact-card whatsapp-card" href={`https://wa.me/${CEO_WHATSAPP}`} target="_blank" rel="noreferrer">
+            <span className="contact-icon">WA</span><small>CEO • WHATSAPP</small><strong>AGREY CHENGA</strong><b>+1 437-260-1378</b><em>Open WhatsApp →</em>
+          </a>
+          <a className="contact-card whatsapp-card alt" href={`https://wa.me/${MARKETING_WHATSAPP}`} target="_blank" rel="noreferrer">
+            <span className="contact-icon">WA</span><small>DIRECTOR OF MARKETING • WHATSAPP</small><strong>Hazel Ally</strong><b>+1 437-870-3561</b><em>Open WhatsApp →</em>
+          </a>
+          <a className="contact-card email-card" href={`mailto:${COMPANY_EMAIL}?subject=Afro-Canada Logistics Inquiry`}>
+            <span className="contact-icon">@</span><small>COMPANY EMAIL</small><strong>Afro-Canada Logistics</strong><b>{COMPANY_EMAIL}</b><em>Write an email →</em>
+          </a>
+        </div>
+        <div className="address-strip"><span>CANADA OFFICE</span><strong>601 Dundas Street East, Whitby, Ontario, Canada</strong></div>
       </section>
 
       <section className="quote-section" id="quote">
-        <div className="quote-intro">
-          <span className="kicker light">START YOUR ROUTE</span>
-          <h2>Tell us what<br />you’re moving.</h2>
-          <p>Complete the essentials and get an immediate planning range. We’ll follow up with a verified quote.</p>
-          <div className="contact-note" id="contact">
-            <span>VISIT OR WRITE TO US</span>
-            <strong>601 Dundas Street East<br />Whitby, Ontario, Canada</strong>
-            <small>The quote form is our current contact channel.</small>
-          </div>
-        </div>
-
+        <div className="quote-intro"><span className="kicker light">START YOUR ROUTE</span><h2>Tell us what<br />you’re moving.</h2><p>Complete the form and we’ll open a ready-to-send WhatsApp message containing your shipment details and reference number.</p><div className="quote-help"><span>Need help first?</span><a href={`https://wa.me/${CEO_WHATSAPP}`} target="_blank" rel="noreferrer">Chat on WhatsApp →</a></div></div>
         <div className="form-shell">
           {submittedRef ? (
-            <div className="success-card" role="status">
-              <span className="success-icon">✓</span>
-              <p className="kicker">REQUEST SAVED</p>
-              <h3>Your route is ready for review.</h3>
-              <p>Your planning reference is <strong>{submittedRef}</strong>. This preview stores the request on this device; connect a business inbox or CRM before launch to receive submissions.</p>
-              <button className="primary-button" type="button" onClick={() => { setQuote(emptyQuote); setSubmittedRef(""); }}>Create another request <ArrowIcon /></button>
-            </div>
+            <div className="success-card" role="status"><span className="success-icon">✓</span><p className="kicker">REQUEST PREPARED</p><h3>Your reference is {submittedRef}.</h3><p>Your WhatsApp message has been prepared. If WhatsApp did not open, use the button below and send your details directly.</p><a className="primary-button" href={`https://wa.me/${CEO_WHATSAPP}`} target="_blank" rel="noreferrer">Open WhatsApp <ArrowIcon /></a><button className="reset-button" type="button" onClick={() => { setQuote(emptyQuote); setSubmittedRef(""); }}>Create another request</button></div>
           ) : (
             <form onSubmit={submitQuote}>
-              <div className="form-heading"><div><span>QUOTE REQUEST</span><strong>01 / 01</strong></div><div className="form-progress"><i /></div></div>
+              <div className="form-heading"><div><span>QUOTE REQUEST</span><strong>SECURE CONTACT</strong></div><div className="form-progress"><i /></div></div>
               <div className="field-grid">
-                <label>Route
-                  <select value={quote.route} onChange={(e) => update("route", e.target.value)}>
-                    <option>Canada to Tanzania</option>
-                    <option>Tanzania to Canada</option>
-                  </select>
-                </label>
-                <label>Service
-                  <select value={quote.service} onChange={(e) => update("service", e.target.value)}>
-                    <option>Air freight</option>
-                    <option>Ocean cargo</option>
-                    <option>Express documents</option>
-                    <option>Door coordination</option>
-                  </select>
-                </label>
-                <label>Origin city
-                  <input required value={quote.originCity} onChange={(e) => update("originCity", e.target.value)} placeholder="e.g. Toronto" />
-                </label>
-                <label>Destination city
-                  <input required value={quote.destinationCity} onChange={(e) => update("destinationCity", e.target.value)} placeholder="e.g. Dar es Salaam" />
-                </label>
-                <label>Shipment type
-                  <select value={quote.shipment} onChange={(e) => update("shipment", e.target.value)}>
-                    <option>Boxes & personal effects</option>
-                    <option>Documents</option>
-                    <option>Household goods</option>
-                    <option>Commercial cargo</option>
-                    <option>Vehicle parts</option>
-                  </select>
-                </label>
-                <label>Estimated weight (kg)
-                  <input required min="1" type="number" value={quote.weight} onChange={(e) => update("weight", e.target.value)} />
-                </label>
-                <label>Ready date
-                  <input required type="date" value={quote.readyDate} onChange={(e) => update("readyDate", e.target.value)} />
-                </label>
-                <label>Your name
-                  <input required value={quote.name} onChange={(e) => update("name", e.target.value)} placeholder="Full name" />
-                </label>
-                <label>Email
-                  <input required type="email" value={quote.email} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" />
-                </label>
-                <label>Phone / WhatsApp
-                  <input required type="tel" value={quote.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+1 or +255" />
-                </label>
-                <label className="full-field">Anything else we should know?
-                  <textarea value={quote.notes} onChange={(e) => update("notes", e.target.value)} placeholder="Number of boxes, dimensions, pickup needs or special handling..." rows={3} />
-                </label>
+                <label>Route<select value={quote.route} onChange={(e) => update("route", e.target.value)}><option>Canada to Tanzania</option><option>Tanzania to Canada</option></select></label>
+                <label>Service<select value={quote.service} onChange={(e) => update("service", e.target.value)}><option>Air freight</option><option>Ocean cargo</option><option>Express documents</option><option>Door coordination</option></select></label>
+                <label>Origin city<input required value={quote.originCity} onChange={(e) => update("originCity", e.target.value)} placeholder="e.g. Toronto" /></label>
+                <label>Destination city<input required value={quote.destinationCity} onChange={(e) => update("destinationCity", e.target.value)} placeholder="e.g. Dar es Salaam" /></label>
+                <label>Shipment type<select value={quote.shipment} onChange={(e) => update("shipment", e.target.value)}><option>Boxes & personal effects</option><option>Documents</option><option>Household goods</option><option>Commercial cargo</option><option>Vehicle parts</option></select></label>
+                <label>Estimated weight (kg)<input required min="1" type="number" value={quote.weight} onChange={(e) => update("weight", e.target.value)} /></label>
+                <label>Ready date<input required type="date" value={quote.readyDate} onChange={(e) => update("readyDate", e.target.value)} /></label>
+                <label>Your name<input required value={quote.name} onChange={(e) => update("name", e.target.value)} placeholder="Full name" /></label>
+                <label>Email<input required type="email" value={quote.email} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" /></label>
+                <label>Phone / WhatsApp<input required type="tel" value={quote.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+1 or +255" /></label>
+                <label className="full-field">Anything else we should know?<textarea value={quote.notes} onChange={(e) => update("notes", e.target.value)} placeholder="Number of boxes, dimensions, pickup needs or special handling..." rows={3} /></label>
               </div>
-              <div className="estimate-bar">
-                <div><span>ILLUSTRATIVE RANGE</span><strong>CA${estimate}</strong><small>Final quote confirmed after review</small></div>
-                <button className="submit-button" type="submit">Save request <ArrowIcon /></button>
-              </div>
+              <div className="estimate-bar"><div><span>ILLUSTRATIVE RANGE</span><strong>CA${estimate}</strong><small>Final quote confirmed after review</small></div><button className="submit-button" type="submit">Send via WhatsApp <ArrowIcon /></button></div>
             </form>
           )}
         </div>
       </section>
 
-      <footer>
-        <a className="brand footer-brand" href="#top"><span className="brand-mark">AC</span><span className="brand-copy"><strong>Afro-Canada</strong><small>LOGISTICS</small></span></a>
-        <p>601 Dundas Street East, Whitby, Ontario</p>
-        <span>© {new Date().getFullYear()} Afro-Canada Logistics</span>
-      </footer>
+      <footer><a className="brand footer-brand" href="#top"><span className="brand-mark"><b>AC</b><i /></span><span className="brand-copy"><strong>Afro-Canada</strong><small>LOGISTICS</small></span></a><div><p>601 Dundas Street East, Whitby, Ontario</p><a href={`mailto:${COMPANY_EMAIL}`}>{COMPANY_EMAIL}</a></div><span>© {new Date().getFullYear()} Afro-Canada Logistics</span></footer>
     </main>
   );
 }
