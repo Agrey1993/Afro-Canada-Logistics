@@ -1,27 +1,53 @@
 import "./globals.css";
+import "./professional.css";
+import "./service-images.css";
+import "./logo-restore.css";
 
 export const metadata = {
-  metadataBase: new URL("https://afro-canada-logistics-agrey.adeus660.chatgpt.site"),
-  title: "Afro-Canada Logistics | Canada ↔ Tanzania",
-  description: "Reliable shipment coordination between Canada and Tanzania.",
+  metadataBase: new URL("https://afrocanadalogistics.ca"),
+  title: "Afro-Canada Logistics | Canada ↔ Tanzania Shipping",
+  description: "Canada–Tanzania shipping coordination for air freight, ocean cargo, personal effects and door-to-door planning.",
+  applicationName: "Afro-Canada Logistics",
+  alternates: { canonical: "/" },
+  icons: { icon: "/favicon.svg", apple: "/apple-touch-icon.svg" },
   openGraph: {
-    title: "Afro-Canada Logistics",
-    description: "Reliable shipment coordination between Canada and Tanzania.",
+    title: "Afro-Canada Logistics | Canada ↔ Tanzania Shipping",
+    description: "Moving cargo. Connecting homes between Canada and Tanzania.",
+    url: "https://afrocanadalogistics.ca",
+    siteName: "Afro-Canada Logistics",
     type: "website",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Afro-Canada Logistics — Canada to Tanzania" }],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Afro-Canada Logistics",
-    description: "Reliable shipment coordination between Canada and Tanzania.",
-    images: ["/og.png"],
+    description: "Canada–Tanzania shipping coordination for air, ocean and door planning.",
   },
+};
+
+const businessSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Afro-Canada Logistics",
+  url: "https://afrocanadalogistics.ca",
+  email: "Afrocanadalogistics@gmail.com",
+  telephone: "+1-437-260-1378",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "601 Dundas Street East",
+    addressLocality: "Whitby",
+    addressRegion: "Ontario",
+    addressCountry: "CA",
+  },
+  areaServed: ["Canada", "Tanzania"],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }} />
+      </body>
     </html>
   );
 }
