@@ -1,0 +1,46 @@
+.service-art {
+  height: 190px;
+  margin: 14px 0 18px;
+  border-radius: 22px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 14px 34px rgba(19,35,29,.14);
+  border: 1px solid rgba(255,255,255,.75);
+  position: relative;
+}
+
+.service-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 52%, rgba(9,40,30,.28));
+  pointer-events: none;
+}
+
+.service-art svg {
+  display: none;
+}
+
+.service-card.air .service-art {
+  background-image: url("https://images.unsplash.com/photo-1774698078446-59299e016718?auto=format&fit=crop&q=82&w=1400");
+  background-position: center 48%;
+}
+
+.service-card.ocean .service-art {
+  background-image: url("https://images.unsplash.com/photo-1725100609222-86a51bee3c3a?auto=format&fit=crop&q=82&w=1400");
+  background-position: center 52%;
+}
+
+.service-card.door .service-art {
+  background-image: url("https://images.unsplash.com/photo-1741947836110-1875a0ca325d?auto=format&fit=crop&q=82&w=1400");
+  background-position: center 42%;
+}
+
+@media (max-width: 760px) {
+  .service-art {
+    height: 210px;
+    margin-top: 16px;
+  }
+}
