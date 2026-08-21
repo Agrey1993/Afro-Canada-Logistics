@@ -39,24 +39,27 @@ const services = [
     number: "01",
     title: "Air freight",
     copy: "Fast coordination for boxes, documents and time-sensitive cargo between Canada and Tanzania.",
-    price: "From CA$9.50/kg*",
-    timeline: "Indicative: 5–10 business days",
+    price: "Typical CA$8–14/kg*",
+    billing: "45 kg+ consolidated cargo",
+    timeline: "Typical: 5–10 business days",
     className: "air",
   },
   {
     number: "02",
     title: "Ocean cargo",
     copy: "A practical choice for household goods, larger personal effects and commercial loads.",
-    price: "From CA$4.25/kg*",
-    timeline: "Indicative: 6–10 weeks",
+    price: "Approx. CA$2.50–5.50/kg*",
+    billing: "LCL normally billed by volume (CBM)",
+    timeline: "Typical: 6–10 weeks",
     className: "ocean",
   },
   {
     number: "03",
     title: "Door coordination",
     copy: "Pickup and delivery planning with one clear point of contact across both countries.",
-    price: "Custom quote",
-    timeline: "Based on pickup and destination",
+    price: "From CA$95/shipment*",
+    billing: "Freight and local mileage are additional",
+    timeline: "Timing based on pickup and destination",
     className: "door",
   },
 ];
@@ -109,16 +112,23 @@ export default function Home() {
   const estimate = useMemo(() => {
     const weight = Math.max(0, Number(quote.weight) || 0);
     const rates: Record<string, { rate: number; minimum: number }> = {
-      "Air freight": { rate: 9.5, minimum: 120 },
-      "Ocean cargo": { rate: 4.25, minimum: 85 },
-      "Express documents": { rate: 14.5, minimum: 165 },
+      "Air freight": { rate: 11, minimum: 165 },
+      "Ocean cargo": { rate: 4, minimum: 250 },
+      "Express documents": { rate: 18, minimum: 225 },
+      "Door coordination": { rate: 3, minimum: 95 },
     };
     const selected = rates[quote.service] ?? rates["Air freight"];
     const routeFactor = quote.route === "Tanzania to Canada" ? 1.12 : 1;
     const low = Math.max(selected.minimum, weight * selected.rate * routeFactor);
-    const high = low * 1.22;
+    const high = low * 1.25;
     return `${Math.round(low).toLocaleString("en-CA")}–${Math.round(high).toLocaleString("en-CA")}`;
   }, [quote.route, quote.service, quote.weight]);
+
+  const estimateNote = quote.service === "Door coordination"
+    ? "Coordination only; freight and mileage added after review"
+    : quote.service === "Ocean cargo"
+      ? "Ocean LCL is finalized from cargo volume and chargeable measure"
+      : "Final quote uses actual or volumetric weight, whichever is greater";
 
   const update = (field: keyof Quote, value: string) => setQuote((current) => ({ ...current, [field]: value }));
 
@@ -217,12 +227,12 @@ export default function Home() {
               <div className="service-top"><span className="service-number">{service.number}</span><span className="service-badge">CAN ↔ TZ</span></div>
               <div className="service-art">{service.number === "01" ? <PlaneIcon /> : service.number === "02" ? <ShipIcon /> : <DoorIcon />}</div>
               <h3>{service.title}</h3><p>{service.copy}</p>
-              <div className="price-row"><strong>{service.price}</strong><span>{service.timeline}</span></div>
+              <div className="price-row"><strong>{service.price}</strong><span>{service.billing}</span><span>{service.timeline}</span></div>
               <button type="button" onClick={() => { update("service", service.title); scrollToQuote(); }}>Choose this service <ArrowIcon /></button>
             </article>
           ))}
         </div>
-        <p className="pricing-note">*Planning rates are illustrative only. Final rates depend on dimensions, exact locations, duties/taxes, insurance, cargo type and carrier availability.</p>
+        <p className="pricing-note">*Planning ranges in Canadian dollars for standard, non-hazardous consolidated cargo. Air freight uses chargeable or volumetric weight. Ocean LCL is normally priced by cubic metre, so the per-kilogram equivalent changes with cargo density. Door coordination is a service charge. Duties, taxes, insurance, packing, remote-area fees and carrier surcharges are excluded until confirmed in writing.</p>
       </section>
 
       <section className="assurance-section" aria-labelledby="assurance-title">
@@ -277,7 +287,7 @@ export default function Home() {
                 <label className="full-field">Anything else we should know?<textarea maxLength={1200} value={quote.notes} onChange={(e) => update("notes", e.target.value)} placeholder="Number of boxes, dimensions, pickup needs or special handling..." rows={3} /></label>
               </div>
               <div className="form-consent">By continuing, you choose to send these details to Afro-Canada Logistics through WhatsApp. See our <a href="/privacy">Privacy Notice</a>.</div>
-              <div className="estimate-bar"><div><span>ILLUSTRATIVE RANGE</span><strong>CA${estimate}</strong><small>Final quote confirmed after review</small></div><button className="submit-button" type="submit">Prepare WhatsApp request <ArrowIcon /></button></div>
+              <div className="estimate-bar"><div><span>ILLUSTRATIVE RANGE</span><strong>CA${estimate}</strong><small>{estimateNote}</small></div><button className="submit-button" type="submit">Prepare WhatsApp request <ArrowIcon /></button></div>
             </form>
           )}
         </div>
