@@ -1,0 +1,5 @@
+.openai
+wrangler.jsonc
+vite.config.ts
+scripts/prepare-sites-build.mjs
+start-site.bat

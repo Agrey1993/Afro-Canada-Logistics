@@ -1,0 +1,48 @@
+.service-art {
+  height: 190px;
+  margin: 14px 0 18px;
+  border-radius: 22px;
+  overflow: hidden;
+  background-size: cover !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 14px 34px rgba(19,35,29,.14);
+  border: 1px solid rgba(255,255,255,.75);
+  position: relative;
+  display: block !important;
+}
+
+.service-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 54%, rgba(9,40,30,.24));
+  pointer-events: none;
+}
+
+.service-art svg {
+  display: none !important;
+}
+
+.service-card.air .service-art {
+  background-image: url("/services/air-freight.webp") !important;
+  background-position: center 48%;
+}
+
+.service-card.ocean .service-art {
+  background-image: url("/services/ocean-cargo.webp") !important;
+  background-position: center 52%;
+}
+
+.service-card.door .service-art {
+  background-image: url("/services/door-coordination.webp") !important;
+  background-position: center 42%;
+}
+
+/* Production deploy marker: Git integration verified 2026-08-21 */
+@media (max-width: 760px) {
+  .service-art {
+    height: 210px;
+    margin-top: 16px;
+  }
+}
