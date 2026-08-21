@@ -92,11 +92,13 @@ nav > a:hover { opacity: .55; }
 .section-intro h2, .quote-intro h2 { font-size: clamp(46px, 5vw, 76px); line-height: .98; margin: 18px 0 0; }
 .section-intro p { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 520px; }
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.service-card { padding: 34px clamp(20px, 3vw, 44px) 30px; min-height: 420px; display: flex; flex-direction: column; position: relative; }
+.service-card { padding: 34px clamp(20px, 2.6vw, 38px) 30px; min-height: 610px; display: flex; flex-direction: column; position: relative; }
 .service-card + .service-card { border-left: 1px solid var(--line); }
 .service-number { color: #8d9993; font: 700 10px/1 "Manrope", sans-serif; }
-.service-icon { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: #eef0df; margin: 48px 0 25px; font-size: 25px; }
-.service-card h3 { font: 700 27px/1.2 "Manrope", sans-serif; letter-spacing: -.04em; margin: 0 0 14px; }
+.service-card h3 { font: 700 27px/1.2 "Manrope", sans-serif; letter-spacing: -.04em; margin: 30px 0 18px; }
+.service-visual { aspect-ratio: 4 / 3; overflow: hidden; background: #e7eadc; margin-bottom: 22px; }
+.service-visual img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; }
+.service-card:hover .service-visual img { transform: scale(1.025); }
 .service-card > p { color: var(--muted); line-height: 1.65; margin: 0; }
 .price-row { display: flex; flex-direction: column; gap: 5px; margin-top: auto; padding-top: 28px; }
 .price-row strong { font: 700 15px/1.2 "Manrope", sans-serif; }
@@ -159,7 +161,8 @@ footer { min-height: 120px; padding: 30px clamp(24px, 6.5vw, 110px); display: fl
   .services-grid { grid-template-columns: 1fr; }
   .service-card { min-height: auto; padding: 35px 20px; }
   .service-card + .service-card { border-left: 0; border-top: 1px solid var(--line); }
-  .service-icon { margin: 25px 0 18px; }
+  .service-card h3 { margin-top: 24px; }
+  .service-visual { max-height: 420px; }
   .price-row { margin-top: 26px; }
   .quote-section { grid-template-columns: 1fr; }
   .quote-intro { position: static; }
