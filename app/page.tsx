@@ -72,6 +72,20 @@ function RouteMark() {
   );
 }
 
+function BrandMark() {
+  return (
+    <span className="brand-mark" aria-hidden="true">
+      <svg className="brand-logo" viewBox="0 0 60 60">
+        <path className="logo-a" d="M8.5 38.5 18.7 14l10.2 24.5M12.1 30.2h13.2" />
+        <path className="logo-c" d="M50.6 19.2c-2.1-2.8-5.2-4.3-8.7-4.3-7 0-11.7 5.2-11.7 12s4.7 12 11.7 12c3.6 0 6.8-1.5 9-4.5" />
+        <path className="logo-route" d="M10.8 46.8c11.4 7.2 28.8 6.5 39.1-2.7" />
+        <circle className="logo-origin" cx="10.8" cy="46.8" r="2.4" />
+        <path className="logo-arrow" d="m45.8 43.2 4.7.4-.4 4.7" />
+      </svg>
+    </span>
+  );
+}
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [quote, setQuote] = useState<Quote>(emptyQuote);
@@ -112,7 +126,7 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Afro-Canada Logistics home">
-          <span className="brand-mark">AC</span>
+          <BrandMark />
           <span className="brand-copy"><strong>Afro-Canada</strong><small>LOGISTICS</small></span>
         </a>
         <button
@@ -322,7 +336,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <a className="brand footer-brand" href="#top"><span className="brand-mark">AC</span><span className="brand-copy"><strong>Afro-Canada</strong><small>LOGISTICS</small></span></a>
+        <a className="brand footer-brand" href="#top" aria-label="Afro-Canada Logistics home"><BrandMark /><span className="brand-copy"><strong>Afro-Canada</strong><small>LOGISTICS</small></span></a>
         <p>601 Dundas Street East, Whitby, Ontario</p>
         <span>© {new Date().getFullYear()} Afro-Canada Logistics</span>
       </footer>
