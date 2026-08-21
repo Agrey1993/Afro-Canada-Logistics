@@ -101,9 +101,19 @@ nav > a:hover { opacity: .55; }
 .quote-intro { position: sticky; top: 140px; align-self: start; }
 .quote-intro h2 { color: white; }
 .quote-intro > p { color: #adbbb5; line-height: 1.7; font-size: 16px; max-width: 420px; }
-.contact-note { margin-top: 70px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; gap: 5px; }
-.contact-note span, .contact-note small { color: #91a099; font-size: 11px; }
-.contact-note strong { font: 600 15px/1.4 "Manrope", sans-serif; }
+.contact-note { margin-top: 54px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.16); }
+.contact-kicker { display: block; color: #91a099; font: 700 10px/1 "Manrope", sans-serif; letter-spacing: .16em; }
+.contact-directory { display: grid; gap: 12px; margin: 18px 0 14px; }
+.contact-person { padding: 16px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.035); }
+.contact-person > div { display: flex; flex-direction: column; gap: 3px; margin-bottom: 12px; }
+.contact-person strong { color: white; font: 700 15px/1.25 "Manrope", sans-serif; }
+.contact-person small { color: #91a099; font-size: 11px; }
+.contact-link { width: fit-content; color: white; font-size: 13px; font-weight: 700; border-bottom: 1px solid rgba(217,238,104,.45); transition: color .2s, border-color .2s; }
+.contact-link:hover { color: var(--lime); border-color: var(--lime); }
+.whatsapp-link { display: inline-flex; align-items: center; gap: 8px; }
+.whatsapp-mark { width: 20px; height: 20px; display: inline-grid; place-items: center; border-radius: 50%; background: var(--lime); color: var(--deep); font: 800 9px/1 "Manrope", sans-serif; }
+.email-link { display: inline-block; overflow-wrap: anywhere; margin-top: 3px; }
+.contact-note address { color: #91a099; font-size: 11px; line-height: 1.55; font-style: normal; margin-top: 18px; }
 .form-shell { background: #f9f7f0; color: var(--ink); padding: clamp(26px, 4vw, 52px); min-height: 620px; }
 .form-heading > div:first-child { display: flex; justify-content: space-between; font: 700 10px/1 "Manrope", sans-serif; letter-spacing: .13em; }
 .form-progress { height: 2px; background: #d9ddd6; margin: 19px 0 44px; }
